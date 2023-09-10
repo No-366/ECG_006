@@ -10,6 +10,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Callback
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 
 
@@ -67,6 +68,9 @@ class MainActivity : ComponentActivity() {
                         println("통신 실패: ${t.message}")
                     }
                 })
+                val intent: Intent = Intent(this, Mypage::class.java)
+                intent.putExtra("namedata",userIdText)
+                startActivity(intent)
             } else {
                 // userIdText 또는 userpassword가 비어있는 경우에 대한 처리를 여기에 추가
                 println("아이디 또는 비밀번호를 입력해주세요.")
