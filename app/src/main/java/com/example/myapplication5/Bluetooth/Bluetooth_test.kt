@@ -1,6 +1,6 @@
 package com.example.myapplication5.Bluetooth
 
-import android.bluetooth.BluetoothAdapter
+/*import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Intent
 import androidx.core.app.ActivityCompat.startActivityForResult
@@ -16,3 +16,4 @@ fun blueTooth(){
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT)
     }
 }
+*/

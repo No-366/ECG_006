@@ -12,8 +12,11 @@ import retrofit2.Callback
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.service.autofill.UserData
+import com.example.myapplication5.models.Response_Model
+import com.google.gson.Gson
 
-
+//JWT 정의
 
 class MainActivity : ComponentActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -39,22 +42,15 @@ class MainActivity : ComponentActivity() {
 
 
 
+
             if (userIdText.isNotEmpty() && userpassword.isNotEmpty()) {
 
                 val userIdCall = networkService.login(model)
 
-                userIdCall.enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                userIdCall.enqueue(object : Callback<Response_Model> {
+                    override fun onResponse(call: Call<Response_Model>, response: Response<Response_Model>) {
                         if (response.isSuccessful) {
-                            // 서버에서 JWT 토큰을 받아옴
-                            val jwtToken = response.headers()["Authorization"]
-                            if (!jwtToken.isNullOrBlank()) {
-                                // SharedPreferences에 저장
-                                sharedPrefs.edit().putString("jwtToken", jwtToken).apply()
-                                println("JWT 토큰 저장 성공")
-                            } else {
-                                println("JWT 토큰이 없습니다.")
-                            }
+
                             // 요청이 성공적으로 처리됨
                             println("아이디 전송 성공")
                         } else {
@@ -63,7 +59,7 @@ class MainActivity : ComponentActivity() {
                         }
                     }
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                    override fun onFailure(call: Call<Response_Model>, t: Throwable) {
                         // 통신 실패 시
                         println("통신 실패: ${t.message}")
                     }
@@ -83,7 +79,7 @@ class MainActivity : ComponentActivity() {
             val userpwText = binding.userpw.text.toString()
             val nameText = binding.name.text.toString()
             val schoolNameText = binding.schoolname.text.toString()
-            val rolesText = binding.roles.text.toString()
+            val rolesText = listOf("user")
             var model = SignUp_Model(userIdText,emailText,userpwText,nameText,schoolNameText,rolesText)
 
 
@@ -92,18 +88,19 @@ class MainActivity : ComponentActivity() {
 
                 val userIdCall = networkService.signup(model)
 
-                userIdCall.enqueue(object : Callback<Void> {
-                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                userIdCall.enqueue(object : Callback<Response_Model> {
+                    override fun onResponse(call: Call<Response_Model>, response: Response<Response_Model>) {
                         if (response.isSuccessful) {
                             // 요청이 성공적으로 처리됨
                             println("회원가입 성공")
+                            println("${response.body()}")
                         } else {
                             // 요청이 실패한 경우
-                            println("요청 실패: ${response.code()}")
+                            println("요청 실패: ${response.code()}, ${response.message()}")
                         }
                     }
 
-                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                    override fun onFailure(call: Call<Response_Model>, t: Throwable) {
                         // 통신 실패 시
                         println("통신 실패: ${t.message}")
                     }

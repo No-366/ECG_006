@@ -6,5 +6,5 @@ data class SignUp_Model(
     private val password: String,
     private val name: String,
     private val schoolName: String,
-    private val roles: String
+    private val roles: List<String> //코틀린 리스트 공부
 )
