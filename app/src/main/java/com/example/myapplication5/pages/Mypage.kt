@@ -1,8 +1,10 @@
 package com.example.myapplication5.pages
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.myapplication5.Bluetooth.testActivity
 
 import com.example.myapplication5.R
 import com.example.myapplication5.databinding.ActivityMypageBinding
@@ -22,6 +24,11 @@ class Mypage : AppCompatActivity() {
 
         val namedata = intent.getStringExtra("namedata")
         binding.textView2.text = "안녕하세요, "+namedata+"님"
+
+       binding.button3.setOnClickListener{
+           val intent: Intent = Intent(this, testActivity::class.java)
+           startActivity(intent)
+       }
 
 
     }
